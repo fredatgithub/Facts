@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EqualityComparerHelper1.cs" />
+    <Compile Include="Fact.cs" />
+    <Compile Include="Fact2.cs" />
+    <Compile Include="IFactCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TupleEqualityComparer.cs">
       <AutoGen>True</AutoGen>
