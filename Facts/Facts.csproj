@@ -41,9 +41,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EqualityComparerHelper1.cs" />
-    <Compile Include="Fact.cs" />
-    <Compile Include="Fact2.cs" />
-    <Compile Include="IFactCheck.cs" />
+    <Content Include="Fact.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Fact.cs</LastGenOutput>
+    </Content>
+    <Content Include="Fact1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Fact11.cs</LastGenOutput>
+    </Content>
+    <Compile Include="Fact.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Fact.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Fact11.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Fact1.tt</DependentUpon>
+    </Compile>
+    <Content Include="IFactCheck.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>IFactCheck.cs</LastGenOutput>
+    </Content>
+    <Compile Include="IFactCheck.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IFactCheck.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TupleEqualityComparer.cs">
       <AutoGen>True</AutoGen>
