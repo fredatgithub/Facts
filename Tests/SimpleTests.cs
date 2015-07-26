@@ -13,21 +13,21 @@ namespace Tests
         {
             var friend = new Fact<string, string>();
             friend.Add("peter", "paul");
-            foreach (var tuple in friend.Read(arg2: "paul"))
+            foreach (var tuple in Fact.Query(friend.Item2 == "paul"))
             {
                 Assert.AreEqual(tuple.Item1, "peter");
             }
-            friend.Remove(null as Needle<string>, "paul");
-            Assert.IsTrue(friend.Read(arg2: "paul").IsEmpty());
-            Assert.IsTrue(friend.Read("peter").IsEmpty());
+            Fact.Remove(friend.Item2 == "paul");
+            Assert.IsTrue(Fact.Query(friend.Item2 == "paul").IsEmpty());
+            Assert.IsTrue(Fact.Query(friend.Item1 == "peter").IsEmpty());
             friend.Add("peter", "paul");
-            foreach (var tuple in friend.Read("peter"))
+            foreach (var tuple in Fact.Query(friend.Item1 == "peter"))
             {
                 Assert.AreEqual(tuple.Item2, "paul");
             }
-            friend.Remove("peter");
-            Assert.IsTrue(friend.Read(arg2: "paul").IsEmpty());
-            Assert.IsTrue(friend.Read("peter").IsEmpty());
+            Fact.Remove(friend.Item1 == "peter");
+            Assert.IsTrue(Fact.Query(friend.Item2 == "paul").IsEmpty());
+            Assert.IsTrue(Fact.Query(friend.Item1 == "peter").IsEmpty());
         }
     }
 }
