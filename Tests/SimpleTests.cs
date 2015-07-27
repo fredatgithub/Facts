@@ -8,7 +8,7 @@ namespace Tests
     public class SimpleTests
     {
         [Test]
-        public void QueryFactUse()
+        public void QueryFact()
         {
             var friend = new Fact<string, string>();
             Assert.IsTrue(Fact.Query(friend.Item2 == "paul").IsEmpty());
@@ -18,6 +18,20 @@ namespace Tests
             {
                 Assert.AreEqual(tuple.Item1, "peter");
             }
+        }
+
+        [Test]
+        public void NegativeQueryFact()
+        {
+            var friend = new Fact<string, string>();
+            Assert.IsTrue(Fact.Query(friend.Item2 == "paul").IsEmpty());
+            Assert.IsTrue(Fact.Query(friend.Item1 == "peter").IsEmpty());
+            friend.Add("peter", "paul");
+            Assert.IsTrue(Fact.Query(friend.Item2 != "paul").IsEmpty());
+            Assert.IsTrue(Fact.Query(friend.Item1 != "peter").IsEmpty());
+            friend.Add("yesenia", "jackson");
+            Assert.IsFalse(Fact.Query(friend.Item2 != "paul").IsEmpty());
+            Assert.IsFalse(Fact.Query(friend.Item1 != "peter").IsEmpty());
         }
 
         [Test]
