@@ -160,15 +160,6 @@ namespace Theraot.Facts
             }
         }
 
-        public void Remove(int hash, Predicate<Tuple<T>> predicate)
-        {
-            Tuple<T> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-            }
-        }
-
         internal object All()
         {
             return _data;
@@ -225,6 +216,15 @@ namespace Theraot.Facts
             }
             predicate = input => false;
             return new int[0];
+        }
+
+        internal void Remove(int hash, Predicate<Tuple<T>> predicate)
+        {
+            Tuple<T> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
+            {
+                _index1.Remove(tuple.Item1, hash);
+            }
         }
     }
 
@@ -471,16 +471,6 @@ namespace Theraot.Facts
             }
         }
 
-        public void Remove(int hash, Predicate<Tuple<T1, T2>> predicate)
-        {
-            Tuple<T1, T2> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-            }
-        }
-
         internal object All()
         {
             return _data;
@@ -546,6 +536,16 @@ namespace Theraot.Facts
             }
             predicate = input => false;
             return new int[0];
+        }
+
+        internal void Remove(int hash, Predicate<Tuple<T1, T2>> predicate)
+        {
+            Tuple<T1, T2> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
+            {
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+            }
         }
     }
 
@@ -802,17 +802,6 @@ namespace Theraot.Facts
             }
         }
 
-        public void Remove(int hash, Predicate<Tuple<T1, T2, T3>> predicate)
-        {
-            Tuple<T1, T2, T3> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-            }
-        }
-
         internal object All()
         {
             return _data;
@@ -887,6 +876,17 @@ namespace Theraot.Facts
             }
             predicate = input => false;
             return new int[0];
+        }
+
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3>> predicate)
+        {
+            Tuple<T1, T2, T3> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
+            {
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+            }
         }
     }
 
@@ -1153,18 +1153,6 @@ namespace Theraot.Facts
             }
         }
 
-        public void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4>> predicate)
-        {
-            Tuple<T1, T2, T3, T4> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-                _index4.Remove(tuple.Item4, hash);
-            }
-        }
-
         internal object All()
         {
             return _data;
@@ -1248,6 +1236,18 @@ namespace Theraot.Facts
             }
             predicate = input => false;
             return new int[0];
+        }
+
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4>> predicate)
+        {
+            Tuple<T1, T2, T3, T4> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
+            {
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+                _index4.Remove(tuple.Item4, hash);
+            }
         }
     }
 
@@ -1524,19 +1524,6 @@ namespace Theraot.Facts
             }
         }
 
-        public void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5>> predicate)
-        {
-            Tuple<T1, T2, T3, T4, T5> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-                _index4.Remove(tuple.Item4, hash);
-                _index5.Remove(tuple.Item5, hash);
-            }
-        }
-
         internal object All()
         {
             return _data;
@@ -1629,6 +1616,19 @@ namespace Theraot.Facts
             }
             predicate = input => false;
             return new int[0];
+        }
+
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5>> predicate)
+        {
+            Tuple<T1, T2, T3, T4, T5> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
+            {
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+                _index4.Remove(tuple.Item4, hash);
+                _index5.Remove(tuple.Item5, hash);
+            }
         }
     }
 
@@ -1915,20 +1915,6 @@ namespace Theraot.Facts
             }
         }
 
-        public void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5, T6>> predicate)
-        {
-            Tuple<T1, T2, T3, T4, T5, T6> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-                _index4.Remove(tuple.Item4, hash);
-                _index5.Remove(tuple.Item5, hash);
-                _index6.Remove(tuple.Item6, hash);
-            }
-        }
-
         internal object All()
         {
             return _data;
@@ -2030,6 +2016,20 @@ namespace Theraot.Facts
             }
             predicate = input => false;
             return new int[0];
+        }
+
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5, T6>> predicate)
+        {
+            Tuple<T1, T2, T3, T4, T5, T6> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
+            {
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+                _index4.Remove(tuple.Item4, hash);
+                _index5.Remove(tuple.Item5, hash);
+                _index6.Remove(tuple.Item6, hash);
+            }
         }
     }
 
@@ -2326,21 +2326,6 @@ namespace Theraot.Facts
             }
         }
 
-        public void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>> predicate)
-        {
-            Tuple<T1, T2, T3, T4, T5, T6, T7> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-                _index4.Remove(tuple.Item4, hash);
-                _index5.Remove(tuple.Item5, hash);
-                _index6.Remove(tuple.Item6, hash);
-                _index7.Remove(tuple.Item7, hash);
-            }
-        }
-
         internal object All()
         {
             return _data;
@@ -2451,6 +2436,21 @@ namespace Theraot.Facts
             }
             predicate = input => false;
             return new int[0];
+        }
+
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>> predicate)
+        {
+            Tuple<T1, T2, T3, T4, T5, T6, T7> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
+            {
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+                _index4.Remove(tuple.Item4, hash);
+                _index5.Remove(tuple.Item5, hash);
+                _index6.Remove(tuple.Item6, hash);
+                _index7.Remove(tuple.Item7, hash);
+            }
         }
     }
 

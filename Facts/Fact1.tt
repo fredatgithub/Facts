@@ -372,21 +372,6 @@ namespace Theraot.Facts
             }
         }
 
-        public void Remove(int hash, Predicate<Tuple<<#=Types(index)#>>> predicate)
-        {
-            Tuple<<#=Types(index)#>> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-<#
-    for (var indice = 1; indice <= index; indice++)
-    {
-            #>
-                _index<#=indice#>.Remove(tuple.Item<#=indice#>, hash);
-<#
-    }#>
-            }
-        }
-
         internal object All()
         {
             return _data;
@@ -455,6 +440,21 @@ namespace Theraot.Facts
             }
             predicate = input => false;
             return new int[0];
+        }
+
+        internal void Remove(int hash, Predicate<Tuple<<#=Types(index)#>>> predicate)
+        {
+            Tuple<<#=Types(index)#>> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
+            {
+<#
+    for (var indice = 1; indice <= index; indice++)
+    {
+            #>
+                _index<#=indice#>.Remove(tuple.Item<#=indice#>, hash);
+<#
+    }#>
+            }
         }
     }
 
