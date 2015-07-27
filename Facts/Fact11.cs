@@ -188,6 +188,7 @@ namespace Theraot.Facts
             {
                 result.Add(hash, predicate);
             }
+            // Should not be needed
             return result;
         }
 
@@ -198,6 +199,7 @@ namespace Theraot.Facts
                 case 1:
                     return _comparer1.Equals(tuple.Item1, (T)value);
             }
+            // Should not be needed
             return false;
         }
 
@@ -214,6 +216,7 @@ namespace Theraot.Facts
                     }
                     break;
             }
+            // Empty result
             predicate = input => false;
             return new int[0];
         }
@@ -499,6 +502,7 @@ namespace Theraot.Facts
             {
                 result.Add(hash, predicate);
             }
+            // Should not be needed
             return result;
         }
 
@@ -511,6 +515,7 @@ namespace Theraot.Facts
                 case 2:
                     return _comparer2.Equals(tuple.Item2, (T2)value);
             }
+            // Should not be needed
             return false;
         }
 
@@ -534,6 +539,7 @@ namespace Theraot.Facts
                     }
                     break;
             }
+            // Empty result
             predicate = input => false;
             return new int[0];
         }
@@ -830,6 +836,7 @@ namespace Theraot.Facts
             {
                 result.Add(hash, predicate);
             }
+            // Should not be needed
             return result;
         }
 
@@ -844,6 +851,7 @@ namespace Theraot.Facts
                 case 3:
                     return _comparer3.Equals(tuple.Item3, (T3)value);
             }
+            // Should not be needed
             return false;
         }
 
@@ -874,6 +882,7 @@ namespace Theraot.Facts
                     }
                     break;
             }
+            // Empty result
             predicate = input => false;
             return new int[0];
         }
@@ -1181,6 +1190,7 @@ namespace Theraot.Facts
             {
                 result.Add(hash, predicate);
             }
+            // Should not be needed
             return result;
         }
 
@@ -1197,6 +1207,7 @@ namespace Theraot.Facts
                 case 4:
                     return _comparer4.Equals(tuple.Item4, (T4)value);
             }
+            // Should not be needed
             return false;
         }
 
@@ -1234,6 +1245,7 @@ namespace Theraot.Facts
                     }
                     break;
             }
+            // Empty result
             predicate = input => false;
             return new int[0];
         }
@@ -1552,6 +1564,7 @@ namespace Theraot.Facts
             {
                 result.Add(hash, predicate);
             }
+            // Should not be needed
             return result;
         }
 
@@ -1570,6 +1583,7 @@ namespace Theraot.Facts
                 case 5:
                     return _comparer5.Equals(tuple.Item5, (T5)value);
             }
+            // Should not be needed
             return false;
         }
 
@@ -1614,6 +1628,7 @@ namespace Theraot.Facts
                     }
                     break;
             }
+            // Empty result
             predicate = input => false;
             return new int[0];
         }
@@ -1943,6 +1958,7 @@ namespace Theraot.Facts
             {
                 result.Add(hash, predicate);
             }
+            // Should not be needed
             return result;
         }
 
@@ -1963,6 +1979,7 @@ namespace Theraot.Facts
                 case 6:
                     return _comparer6.Equals(tuple.Item6, (T6)value);
             }
+            // Should not be needed
             return false;
         }
 
@@ -2014,6 +2031,7 @@ namespace Theraot.Facts
                     }
                     break;
             }
+            // Empty result
             predicate = input => false;
             return new int[0];
         }
@@ -2354,6 +2372,7 @@ namespace Theraot.Facts
             {
                 result.Add(hash, predicate);
             }
+            // Should not be needed
             return result;
         }
 
@@ -2376,6 +2395,7 @@ namespace Theraot.Facts
                 case 7:
                     return _comparer7.Equals(tuple.Item7, (T7)value);
             }
+            // Should not be needed
             return false;
         }
 
@@ -2434,6 +2454,7 @@ namespace Theraot.Facts
                     }
                     break;
             }
+            // Empty result
             predicate = input => false;
             return new int[0];
         }

@@ -135,7 +135,7 @@ namespace Theraot.Facts
             {
                 return data as SafeSet<Tuple<<#=Types(index)#>>>;
             }
-            return new Tuple<<#=Types(index)#>>[0];
+            return new Tuple<<#=Types(index)#>>[0]; // Fallback for wrong implementations
         }
 
         private static IEnumerable<Tuple<<#=Types(index)#>>> GetDataPrivate(IDictionary<int, Predicate<Tuple<<#=Types(index)#>>>> data, Fact<<#=Types(index)#>> fact)

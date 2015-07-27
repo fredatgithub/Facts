@@ -21,7 +21,7 @@ namespace Theraot.Facts
             {
                 return data as SafeSet<Tuple<T>>;
             }
-            return new Tuple<T>[0];
+            return new Tuple<T>[0]; // Fallback for wrong implementations
         }
 
         private static IEnumerable<Tuple<T>> GetDataPrivate(IDictionary<int, Predicate<Tuple<T>>> data, Fact<T> fact)
@@ -56,7 +56,7 @@ namespace Theraot.Facts
             {
                 return data as SafeSet<Tuple<T1, T2>>;
             }
-            return new Tuple<T1, T2>[0];
+            return new Tuple<T1, T2>[0]; // Fallback for wrong implementations
         }
 
         private static IEnumerable<Tuple<T1, T2>> GetDataPrivate(IDictionary<int, Predicate<Tuple<T1, T2>>> data, Fact<T1, T2> fact)
@@ -91,7 +91,7 @@ namespace Theraot.Facts
             {
                 return data as SafeSet<Tuple<T1, T2, T3>>;
             }
-            return new Tuple<T1, T2, T3>[0];
+            return new Tuple<T1, T2, T3>[0]; // Fallback for wrong implementations
         }
 
         private static IEnumerable<Tuple<T1, T2, T3>> GetDataPrivate(IDictionary<int, Predicate<Tuple<T1, T2, T3>>> data, Fact<T1, T2, T3> fact)
@@ -126,7 +126,7 @@ namespace Theraot.Facts
             {
                 return data as SafeSet<Tuple<T1, T2, T3, T4>>;
             }
-            return new Tuple<T1, T2, T3, T4>[0];
+            return new Tuple<T1, T2, T3, T4>[0]; // Fallback for wrong implementations
         }
 
         private static IEnumerable<Tuple<T1, T2, T3, T4>> GetDataPrivate(IDictionary<int, Predicate<Tuple<T1, T2, T3, T4>>> data, Fact<T1, T2, T3, T4> fact)
@@ -161,7 +161,7 @@ namespace Theraot.Facts
             {
                 return data as SafeSet<Tuple<T1, T2, T3, T4, T5>>;
             }
-            return new Tuple<T1, T2, T3, T4, T5>[0];
+            return new Tuple<T1, T2, T3, T4, T5>[0]; // Fallback for wrong implementations
         }
 
         private static IEnumerable<Tuple<T1, T2, T3, T4, T5>> GetDataPrivate(IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5>>> data, Fact<T1, T2, T3, T4, T5> fact)
@@ -196,7 +196,7 @@ namespace Theraot.Facts
             {
                 return data as SafeSet<Tuple<T1, T2, T3, T4, T5, T6>>;
             }
-            return new Tuple<T1, T2, T3, T4, T5, T6>[0];
+            return new Tuple<T1, T2, T3, T4, T5, T6>[0]; // Fallback for wrong implementations
         }
 
         private static IEnumerable<Tuple<T1, T2, T3, T4, T5, T6>> GetDataPrivate(IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5, T6>>> data, Fact<T1, T2, T3, T4, T5, T6> fact)
@@ -231,7 +231,7 @@ namespace Theraot.Facts
             {
                 return data as SafeSet<Tuple<T1, T2, T3, T4, T5, T6, T7>>;
             }
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7>[0];
+            return new Tuple<T1, T2, T3, T4, T5, T6, T7>[0]; // Fallback for wrong implementations
         }
 
         private static IEnumerable<Tuple<T1, T2, T3, T4, T5, T6, T7>> GetDataPrivate(IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>>> data, Fact<T1, T2, T3, T4, T5, T6, T7> fact)
