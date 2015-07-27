@@ -9,24 +9,7 @@ namespace Theraot.Facts
     {        
         public static IEnumerable<Tuple<T>> Query<T>(FactCheckBase<T> check)
         {
-            var data = check.GetData();
-            if (data is IEnumerable<Tuple<T>>)
-            {
-                return data as IEnumerable<Tuple<T>>;
-            }
-            if (data is IDictionary<int, Predicate<Tuple<T>>>)
-            {
-                return PrivateQuery(data as IDictionary<int, Predicate<Tuple<T>>>, check.GetFact());
-            }
-            return new Tuple<T>[0];
-        }
-
-        private static IEnumerable<Tuple<T>> PrivateQuery<T>(IDictionary<int, Predicate<Tuple<T>>> data, Fact<T> fact)
-        {
-            foreach (var pair in data)
-            {
-                yield return fact.Read(pair.Key, pair.Value);
-            }
+            return check.GetTuples();
         }
 
         public static void Remove<T>(FactCheckBase<T> check)
@@ -53,24 +36,7 @@ namespace Theraot.Facts
         
         public static IEnumerable<Tuple<T1, T2>> Query<T1, T2>(FactCheckBase<T1, T2> check)
         {
-            var data = check.GetData();
-            if (data is IEnumerable<Tuple<T1, T2>>)
-            {
-                return data as IEnumerable<Tuple<T1, T2>>;
-            }
-            if (data is IDictionary<int, Predicate<Tuple<T1, T2>>>)
-            {
-                return PrivateQuery(data as IDictionary<int, Predicate<Tuple<T1, T2>>>, check.GetFact());
-            }
-            return new Tuple<T1, T2>[0];
-        }
-
-        private static IEnumerable<Tuple<T1, T2>> PrivateQuery<T1, T2>(IDictionary<int, Predicate<Tuple<T1, T2>>> data, Fact<T1, T2> fact)
-        {
-            foreach (var pair in data)
-            {
-                yield return fact.Read(pair.Key, pair.Value);
-            }
+            return check.GetTuples();
         }
 
         public static void Remove<T1, T2>(FactCheckBase<T1, T2> check)
@@ -97,24 +63,7 @@ namespace Theraot.Facts
         
         public static IEnumerable<Tuple<T1, T2, T3>> Query<T1, T2, T3>(FactCheckBase<T1, T2, T3> check)
         {
-            var data = check.GetData();
-            if (data is IEnumerable<Tuple<T1, T2, T3>>)
-            {
-                return data as IEnumerable<Tuple<T1, T2, T3>>;
-            }
-            if (data is IDictionary<int, Predicate<Tuple<T1, T2, T3>>>)
-            {
-                return PrivateQuery(data as IDictionary<int, Predicate<Tuple<T1, T2, T3>>>, check.GetFact());
-            }
-            return new Tuple<T1, T2, T3>[0];
-        }
-
-        private static IEnumerable<Tuple<T1, T2, T3>> PrivateQuery<T1, T2, T3>(IDictionary<int, Predicate<Tuple<T1, T2, T3>>> data, Fact<T1, T2, T3> fact)
-        {
-            foreach (var pair in data)
-            {
-                yield return fact.Read(pair.Key, pair.Value);
-            }
+            return check.GetTuples();
         }
 
         public static void Remove<T1, T2, T3>(FactCheckBase<T1, T2, T3> check)
@@ -141,24 +90,7 @@ namespace Theraot.Facts
         
         public static IEnumerable<Tuple<T1, T2, T3, T4>> Query<T1, T2, T3, T4>(FactCheckBase<T1, T2, T3, T4> check)
         {
-            var data = check.GetData();
-            if (data is IEnumerable<Tuple<T1, T2, T3, T4>>)
-            {
-                return data as IEnumerable<Tuple<T1, T2, T3, T4>>;
-            }
-            if (data is IDictionary<int, Predicate<Tuple<T1, T2, T3, T4>>>)
-            {
-                return PrivateQuery(data as IDictionary<int, Predicate<Tuple<T1, T2, T3, T4>>>, check.GetFact());
-            }
-            return new Tuple<T1, T2, T3, T4>[0];
-        }
-
-        private static IEnumerable<Tuple<T1, T2, T3, T4>> PrivateQuery<T1, T2, T3, T4>(IDictionary<int, Predicate<Tuple<T1, T2, T3, T4>>> data, Fact<T1, T2, T3, T4> fact)
-        {
-            foreach (var pair in data)
-            {
-                yield return fact.Read(pair.Key, pair.Value);
-            }
+            return check.GetTuples();
         }
 
         public static void Remove<T1, T2, T3, T4>(FactCheckBase<T1, T2, T3, T4> check)
@@ -185,24 +117,7 @@ namespace Theraot.Facts
         
         public static IEnumerable<Tuple<T1, T2, T3, T4, T5>> Query<T1, T2, T3, T4, T5>(FactCheckBase<T1, T2, T3, T4, T5> check)
         {
-            var data = check.GetData();
-            if (data is IEnumerable<Tuple<T1, T2, T3, T4, T5>>)
-            {
-                return data as IEnumerable<Tuple<T1, T2, T3, T4, T5>>;
-            }
-            if (data is IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5>>>)
-            {
-                return PrivateQuery(data as IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5>>>, check.GetFact());
-            }
-            return new Tuple<T1, T2, T3, T4, T5>[0];
-        }
-
-        private static IEnumerable<Tuple<T1, T2, T3, T4, T5>> PrivateQuery<T1, T2, T3, T4, T5>(IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5>>> data, Fact<T1, T2, T3, T4, T5> fact)
-        {
-            foreach (var pair in data)
-            {
-                yield return fact.Read(pair.Key, pair.Value);
-            }
+            return check.GetTuples();
         }
 
         public static void Remove<T1, T2, T3, T4, T5>(FactCheckBase<T1, T2, T3, T4, T5> check)
@@ -229,24 +144,7 @@ namespace Theraot.Facts
         
         public static IEnumerable<Tuple<T1, T2, T3, T4, T5, T6>> Query<T1, T2, T3, T4, T5, T6>(FactCheckBase<T1, T2, T3, T4, T5, T6> check)
         {
-            var data = check.GetData();
-            if (data is IEnumerable<Tuple<T1, T2, T3, T4, T5, T6>>)
-            {
-                return data as IEnumerable<Tuple<T1, T2, T3, T4, T5, T6>>;
-            }
-            if (data is IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5, T6>>>)
-            {
-                return PrivateQuery(data as IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5, T6>>>, check.GetFact());
-            }
-            return new Tuple<T1, T2, T3, T4, T5, T6>[0];
-        }
-
-        private static IEnumerable<Tuple<T1, T2, T3, T4, T5, T6>> PrivateQuery<T1, T2, T3, T4, T5, T6>(IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5, T6>>> data, Fact<T1, T2, T3, T4, T5, T6> fact)
-        {
-            foreach (var pair in data)
-            {
-                yield return fact.Read(pair.Key, pair.Value);
-            }
+            return check.GetTuples();
         }
 
         public static void Remove<T1, T2, T3, T4, T5, T6>(FactCheckBase<T1, T2, T3, T4, T5, T6> check)
@@ -273,24 +171,7 @@ namespace Theraot.Facts
         
         public static IEnumerable<Tuple<T1, T2, T3, T4, T5, T6, T7>> Query<T1, T2, T3, T4, T5, T6, T7>(FactCheckBase<T1, T2, T3, T4, T5, T6, T7> check)
         {
-            var data = check.GetData();
-            if (data is IEnumerable<Tuple<T1, T2, T3, T4, T5, T6, T7>>)
-            {
-                return data as IEnumerable<Tuple<T1, T2, T3, T4, T5, T6, T7>>;
-            }
-            if (data is IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>>>)
-            {
-                return PrivateQuery(data as IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>>>, check.GetFact());
-            }
-            return new Tuple<T1, T2, T3, T4, T5, T6, T7>[0];
-        }
-
-        private static IEnumerable<Tuple<T1, T2, T3, T4, T5, T6, T7>> PrivateQuery<T1, T2, T3, T4, T5, T6, T7>(IDictionary<int, Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>>> data, Fact<T1, T2, T3, T4, T5, T6, T7> fact)
-        {
-            foreach (var pair in data)
-            {
-                yield return fact.Read(pair.Key, pair.Value);
-            }
+            return check.GetTuples();
         }
 
         public static void Remove<T1, T2, T3, T4, T5, T6, T7>(FactCheckBase<T1, T2, T3, T4, T5, T6, T7> check)
