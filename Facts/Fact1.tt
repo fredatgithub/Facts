@@ -272,7 +272,7 @@ namespace Theraot.Facts
         }
     }
 
-    public class Fact<<#=Types(index)#>>
+    public class Fact<<#=Types(index)#>> : FactCheckBase<<#=Types(index)#>>
     {
 <#
     for (var indice = 1; indice <= index; indice++)
@@ -322,7 +322,7 @@ namespace Theraot.Facts
     for (var indice = 1; indice <= index; indice++)
     {
             #>
-        public FactData<<#=Types(index)#>, <#=Type(index, indice)#>> Item<#=indice#> { get; private set; }
+        public FactData<<#=Types(index)#>, <#=Type(index, indice)#>> Item<#=indice#> { get; }
 
 <#
     }#>
@@ -377,6 +377,38 @@ namespace Theraot.Facts
             return _data;
         }
 
+        internal bool Check(int itemIndex, object value, Tuple<<#=Types(index)#>> tuple)
+        {
+            switch (itemIndex)
+            {
+<#
+    for (var indice = 1; indice <= index; indice++)
+    {
+            #>
+                case <#=indice#>:
+                    return _comparer<#=indice#>.Equals(tuple.Item<#=indice#>, (<#=Type(index, indice)#>)value);
+<#
+    }#>
+            }
+            // Should not be needed
+            return false;
+        }
+
+        internal override bool Check(Tuple<<#=Types(index)#>> tuple)
+        {
+            return _data.Contains(tuple);
+        }
+
+        internal override object GetData()
+        {
+            return _data;
+        }
+
+        internal override Fact<<#=Types(index)#>> GetFact()
+        {
+            return this;
+        }
+
         internal int Hash(Tuple<<#=Types(index)#>> tuple)
         {
             return _tupleComparer.GetHashCode(tuple);
@@ -404,21 +436,19 @@ namespace Theraot.Facts
             return result;
         }
 
-        internal bool Check(int itemIndex, object value, Tuple<<#=Types(index)#>> tuple)
+        internal void Remove(int hash, Predicate<Tuple<<#=Types(index)#>>> predicate)
         {
-            switch (itemIndex)
+            Tuple<<#=Types(index)#>> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
             {
 <#
     for (var indice = 1; indice <= index; indice++)
     {
             #>
-                case <#=indice#>:
-                    return _comparer<#=indice#>.Equals(tuple.Item<#=indice#>, (<#=Type(index, indice)#>)value);
+                _index<#=indice#>.Remove(tuple.Item<#=indice#>, hash);
 <#
     }#>
             }
-            // Should not be needed
-            return false;
         }
 
         private IEnumerable<int> ReadPrivate(int itemIndex, object value, out Predicate<Tuple<<#=Types(index)#>>> predicate)
@@ -443,21 +473,6 @@ namespace Theraot.Facts
             // Empty result
             predicate = input => false;
             return new int[0];
-        }
-
-        internal void Remove(int hash, Predicate<Tuple<<#=Types(index)#>>> predicate)
-        {
-            Tuple<<#=Types(index)#>> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-<#
-    for (var indice = 1; indice <= index; indice++)
-    {
-            #>
-                _index<#=indice#>.Remove(tuple.Item<#=indice#>, hash);
-<#
-    }#>
-            }
         }
     }
 

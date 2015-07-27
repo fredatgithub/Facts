@@ -114,7 +114,7 @@ namespace Theraot.Facts
         }
     }
 
-    public class Fact<T>
+    public class Fact<T> : FactCheckBase<T>
     {
         private readonly IEqualityComparer<T> _comparer1;
         private readonly SafeSet<Tuple<T>> _data;
@@ -130,7 +130,7 @@ namespace Theraot.Facts
             Item1 = new FactData<T, T>(this, 1);
         }
 
-        public FactData<T, T> Item1 { get; private set; }
+        public FactData<T, T> Item1 { get; }
 
         public void Add(T obj)
         {
@@ -165,6 +165,32 @@ namespace Theraot.Facts
             return _data;
         }
 
+        internal bool Check(int itemIndex, object value, Tuple<T> tuple)
+        {
+            switch (itemIndex)
+            {
+                case 1:
+                    return _comparer1.Equals(tuple.Item1, (T)value);
+            }
+            // Should not be needed
+            return false;
+        }
+
+        internal override bool Check(Tuple<T> tuple)
+        {
+            return _data.Contains(tuple);
+        }
+
+        internal override object GetData()
+        {
+            return _data;
+        }
+
+        internal override Fact<T> GetFact()
+        {
+            return this;
+        }
+
         internal int Hash(Tuple<T> tuple)
         {
             return _tupleComparer.GetHashCode(tuple);
@@ -192,15 +218,13 @@ namespace Theraot.Facts
             return result;
         }
 
-        internal bool Check(int itemIndex, object value, Tuple<T> tuple)
+        internal void Remove(int hash, Predicate<Tuple<T>> predicate)
         {
-            switch (itemIndex)
+            Tuple<T> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
             {
-                case 1:
-                    return _comparer1.Equals(tuple.Item1, (T)value);
+                _index1.Remove(tuple.Item1, hash);
             }
-            // Should not be needed
-            return false;
         }
 
         private IEnumerable<int> ReadPrivate(int itemIndex, object value, out Predicate<Tuple<T>> predicate)
@@ -219,15 +243,6 @@ namespace Theraot.Facts
             // Empty result
             predicate = input => false;
             return new int[0];
-        }
-
-        internal void Remove(int hash, Predicate<Tuple<T>> predicate)
-        {
-            Tuple<T> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-            }
         }
     }
 
@@ -418,7 +433,7 @@ namespace Theraot.Facts
         }
     }
 
-    public class Fact<T1, T2>
+    public class Fact<T1, T2> : FactCheckBase<T1, T2>
     {
         private readonly IEqualityComparer<T1> _comparer1;
         private readonly IEqualityComparer<T2> _comparer2;
@@ -439,9 +454,9 @@ namespace Theraot.Facts
             Item2 = new FactData<T1, T2, T2>(this, 2);
         }
 
-        public FactData<T1, T2, T1> Item1 { get; private set; }
+        public FactData<T1, T2, T1> Item1 { get; }
 
-        public FactData<T1, T2, T2> Item2 { get; private set; }
+        public FactData<T1, T2, T2> Item2 { get; }
 
         public void Add(T1 arg1, T2 arg2)
         {
@@ -479,6 +494,34 @@ namespace Theraot.Facts
             return _data;
         }
 
+        internal bool Check(int itemIndex, object value, Tuple<T1, T2> tuple)
+        {
+            switch (itemIndex)
+            {
+                case 1:
+                    return _comparer1.Equals(tuple.Item1, (T1)value);
+                case 2:
+                    return _comparer2.Equals(tuple.Item2, (T2)value);
+            }
+            // Should not be needed
+            return false;
+        }
+
+        internal override bool Check(Tuple<T1, T2> tuple)
+        {
+            return _data.Contains(tuple);
+        }
+
+        internal override object GetData()
+        {
+            return _data;
+        }
+
+        internal override Fact<T1, T2> GetFact()
+        {
+            return this;
+        }
+
         internal int Hash(Tuple<T1, T2> tuple)
         {
             return _tupleComparer.GetHashCode(tuple);
@@ -506,17 +549,14 @@ namespace Theraot.Facts
             return result;
         }
 
-        internal bool Check(int itemIndex, object value, Tuple<T1, T2> tuple)
+        internal void Remove(int hash, Predicate<Tuple<T1, T2>> predicate)
         {
-            switch (itemIndex)
+            Tuple<T1, T2> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
             {
-                case 1:
-                    return _comparer1.Equals(tuple.Item1, (T1)value);
-                case 2:
-                    return _comparer2.Equals(tuple.Item2, (T2)value);
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
             }
-            // Should not be needed
-            return false;
         }
 
         private IEnumerable<int> ReadPrivate(int itemIndex, object value, out Predicate<Tuple<T1, T2>> predicate)
@@ -542,16 +582,6 @@ namespace Theraot.Facts
             // Empty result
             predicate = input => false;
             return new int[0];
-        }
-
-        internal void Remove(int hash, Predicate<Tuple<T1, T2>> predicate)
-        {
-            Tuple<T1, T2> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-            }
         }
     }
 
@@ -742,7 +772,7 @@ namespace Theraot.Facts
         }
     }
 
-    public class Fact<T1, T2, T3>
+    public class Fact<T1, T2, T3> : FactCheckBase<T1, T2, T3>
     {
         private readonly IEqualityComparer<T1> _comparer1;
         private readonly IEqualityComparer<T2> _comparer2;
@@ -768,11 +798,11 @@ namespace Theraot.Facts
             Item3 = new FactData<T1, T2, T3, T3>(this, 3);
         }
 
-        public FactData<T1, T2, T3, T1> Item1 { get; private set; }
+        public FactData<T1, T2, T3, T1> Item1 { get; }
 
-        public FactData<T1, T2, T3, T2> Item2 { get; private set; }
+        public FactData<T1, T2, T3, T2> Item2 { get; }
 
-        public FactData<T1, T2, T3, T3> Item3 { get; private set; }
+        public FactData<T1, T2, T3, T3> Item3 { get; }
 
         public void Add(T1 arg1, T2 arg2, T3 arg3)
         {
@@ -813,6 +843,36 @@ namespace Theraot.Facts
             return _data;
         }
 
+        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3> tuple)
+        {
+            switch (itemIndex)
+            {
+                case 1:
+                    return _comparer1.Equals(tuple.Item1, (T1)value);
+                case 2:
+                    return _comparer2.Equals(tuple.Item2, (T2)value);
+                case 3:
+                    return _comparer3.Equals(tuple.Item3, (T3)value);
+            }
+            // Should not be needed
+            return false;
+        }
+
+        internal override bool Check(Tuple<T1, T2, T3> tuple)
+        {
+            return _data.Contains(tuple);
+        }
+
+        internal override object GetData()
+        {
+            return _data;
+        }
+
+        internal override Fact<T1, T2, T3> GetFact()
+        {
+            return this;
+        }
+
         internal int Hash(Tuple<T1, T2, T3> tuple)
         {
             return _tupleComparer.GetHashCode(tuple);
@@ -840,19 +900,15 @@ namespace Theraot.Facts
             return result;
         }
 
-        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3> tuple)
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3>> predicate)
         {
-            switch (itemIndex)
+            Tuple<T1, T2, T3> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
             {
-                case 1:
-                    return _comparer1.Equals(tuple.Item1, (T1)value);
-                case 2:
-                    return _comparer2.Equals(tuple.Item2, (T2)value);
-                case 3:
-                    return _comparer3.Equals(tuple.Item3, (T3)value);
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
             }
-            // Should not be needed
-            return false;
         }
 
         private IEnumerable<int> ReadPrivate(int itemIndex, object value, out Predicate<Tuple<T1, T2, T3>> predicate)
@@ -885,17 +941,6 @@ namespace Theraot.Facts
             // Empty result
             predicate = input => false;
             return new int[0];
-        }
-
-        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3>> predicate)
-        {
-            Tuple<T1, T2, T3> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-            }
         }
     }
 
@@ -1086,7 +1131,7 @@ namespace Theraot.Facts
         }
     }
 
-    public class Fact<T1, T2, T3, T4>
+    public class Fact<T1, T2, T3, T4> : FactCheckBase<T1, T2, T3, T4>
     {
         private readonly IEqualityComparer<T1> _comparer1;
         private readonly IEqualityComparer<T2> _comparer2;
@@ -1117,13 +1162,13 @@ namespace Theraot.Facts
             Item4 = new FactData<T1, T2, T3, T4, T4>(this, 4);
         }
 
-        public FactData<T1, T2, T3, T4, T1> Item1 { get; private set; }
+        public FactData<T1, T2, T3, T4, T1> Item1 { get; }
 
-        public FactData<T1, T2, T3, T4, T2> Item2 { get; private set; }
+        public FactData<T1, T2, T3, T4, T2> Item2 { get; }
 
-        public FactData<T1, T2, T3, T4, T3> Item3 { get; private set; }
+        public FactData<T1, T2, T3, T4, T3> Item3 { get; }
 
-        public FactData<T1, T2, T3, T4, T4> Item4 { get; private set; }
+        public FactData<T1, T2, T3, T4, T4> Item4 { get; }
 
         public void Add(T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
@@ -1167,6 +1212,38 @@ namespace Theraot.Facts
             return _data;
         }
 
+        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3, T4> tuple)
+        {
+            switch (itemIndex)
+            {
+                case 1:
+                    return _comparer1.Equals(tuple.Item1, (T1)value);
+                case 2:
+                    return _comparer2.Equals(tuple.Item2, (T2)value);
+                case 3:
+                    return _comparer3.Equals(tuple.Item3, (T3)value);
+                case 4:
+                    return _comparer4.Equals(tuple.Item4, (T4)value);
+            }
+            // Should not be needed
+            return false;
+        }
+
+        internal override bool Check(Tuple<T1, T2, T3, T4> tuple)
+        {
+            return _data.Contains(tuple);
+        }
+
+        internal override object GetData()
+        {
+            return _data;
+        }
+
+        internal override Fact<T1, T2, T3, T4> GetFact()
+        {
+            return this;
+        }
+
         internal int Hash(Tuple<T1, T2, T3, T4> tuple)
         {
             return _tupleComparer.GetHashCode(tuple);
@@ -1194,21 +1271,16 @@ namespace Theraot.Facts
             return result;
         }
 
-        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3, T4> tuple)
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4>> predicate)
         {
-            switch (itemIndex)
+            Tuple<T1, T2, T3, T4> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
             {
-                case 1:
-                    return _comparer1.Equals(tuple.Item1, (T1)value);
-                case 2:
-                    return _comparer2.Equals(tuple.Item2, (T2)value);
-                case 3:
-                    return _comparer3.Equals(tuple.Item3, (T3)value);
-                case 4:
-                    return _comparer4.Equals(tuple.Item4, (T4)value);
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+                _index4.Remove(tuple.Item4, hash);
             }
-            // Should not be needed
-            return false;
         }
 
         private IEnumerable<int> ReadPrivate(int itemIndex, object value, out Predicate<Tuple<T1, T2, T3, T4>> predicate)
@@ -1248,18 +1320,6 @@ namespace Theraot.Facts
             // Empty result
             predicate = input => false;
             return new int[0];
-        }
-
-        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4>> predicate)
-        {
-            Tuple<T1, T2, T3, T4> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-                _index4.Remove(tuple.Item4, hash);
-            }
         }
     }
 
@@ -1450,7 +1510,7 @@ namespace Theraot.Facts
         }
     }
 
-    public class Fact<T1, T2, T3, T4, T5>
+    public class Fact<T1, T2, T3, T4, T5> : FactCheckBase<T1, T2, T3, T4, T5>
     {
         private readonly IEqualityComparer<T1> _comparer1;
         private readonly IEqualityComparer<T2> _comparer2;
@@ -1486,15 +1546,15 @@ namespace Theraot.Facts
             Item5 = new FactData<T1, T2, T3, T4, T5, T5>(this, 5);
         }
 
-        public FactData<T1, T2, T3, T4, T5, T1> Item1 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T1> Item1 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T2> Item2 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T2> Item2 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T3> Item3 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T3> Item3 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T4> Item4 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T4> Item4 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T5> Item5 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T5> Item5 { get; }
 
         public void Add(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
@@ -1541,6 +1601,40 @@ namespace Theraot.Facts
             return _data;
         }
 
+        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3, T4, T5> tuple)
+        {
+            switch (itemIndex)
+            {
+                case 1:
+                    return _comparer1.Equals(tuple.Item1, (T1)value);
+                case 2:
+                    return _comparer2.Equals(tuple.Item2, (T2)value);
+                case 3:
+                    return _comparer3.Equals(tuple.Item3, (T3)value);
+                case 4:
+                    return _comparer4.Equals(tuple.Item4, (T4)value);
+                case 5:
+                    return _comparer5.Equals(tuple.Item5, (T5)value);
+            }
+            // Should not be needed
+            return false;
+        }
+
+        internal override bool Check(Tuple<T1, T2, T3, T4, T5> tuple)
+        {
+            return _data.Contains(tuple);
+        }
+
+        internal override object GetData()
+        {
+            return _data;
+        }
+
+        internal override Fact<T1, T2, T3, T4, T5> GetFact()
+        {
+            return this;
+        }
+
         internal int Hash(Tuple<T1, T2, T3, T4, T5> tuple)
         {
             return _tupleComparer.GetHashCode(tuple);
@@ -1568,23 +1662,17 @@ namespace Theraot.Facts
             return result;
         }
 
-        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3, T4, T5> tuple)
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5>> predicate)
         {
-            switch (itemIndex)
+            Tuple<T1, T2, T3, T4, T5> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
             {
-                case 1:
-                    return _comparer1.Equals(tuple.Item1, (T1)value);
-                case 2:
-                    return _comparer2.Equals(tuple.Item2, (T2)value);
-                case 3:
-                    return _comparer3.Equals(tuple.Item3, (T3)value);
-                case 4:
-                    return _comparer4.Equals(tuple.Item4, (T4)value);
-                case 5:
-                    return _comparer5.Equals(tuple.Item5, (T5)value);
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+                _index4.Remove(tuple.Item4, hash);
+                _index5.Remove(tuple.Item5, hash);
             }
-            // Should not be needed
-            return false;
         }
 
         private IEnumerable<int> ReadPrivate(int itemIndex, object value, out Predicate<Tuple<T1, T2, T3, T4, T5>> predicate)
@@ -1631,19 +1719,6 @@ namespace Theraot.Facts
             // Empty result
             predicate = input => false;
             return new int[0];
-        }
-
-        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5>> predicate)
-        {
-            Tuple<T1, T2, T3, T4, T5> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-                _index4.Remove(tuple.Item4, hash);
-                _index5.Remove(tuple.Item5, hash);
-            }
         }
     }
 
@@ -1834,7 +1909,7 @@ namespace Theraot.Facts
         }
     }
 
-    public class Fact<T1, T2, T3, T4, T5, T6>
+    public class Fact<T1, T2, T3, T4, T5, T6> : FactCheckBase<T1, T2, T3, T4, T5, T6>
     {
         private readonly IEqualityComparer<T1> _comparer1;
         private readonly IEqualityComparer<T2> _comparer2;
@@ -1875,17 +1950,17 @@ namespace Theraot.Facts
             Item6 = new FactData<T1, T2, T3, T4, T5, T6, T6>(this, 6);
         }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T1> Item1 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T1> Item1 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T2> Item2 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T2> Item2 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T3> Item3 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T3> Item3 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T4> Item4 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T4> Item4 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T5> Item5 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T5> Item5 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T6> Item6 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T6> Item6 { get; }
 
         public void Add(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
         {
@@ -1935,6 +2010,42 @@ namespace Theraot.Facts
             return _data;
         }
 
+        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3, T4, T5, T6> tuple)
+        {
+            switch (itemIndex)
+            {
+                case 1:
+                    return _comparer1.Equals(tuple.Item1, (T1)value);
+                case 2:
+                    return _comparer2.Equals(tuple.Item2, (T2)value);
+                case 3:
+                    return _comparer3.Equals(tuple.Item3, (T3)value);
+                case 4:
+                    return _comparer4.Equals(tuple.Item4, (T4)value);
+                case 5:
+                    return _comparer5.Equals(tuple.Item5, (T5)value);
+                case 6:
+                    return _comparer6.Equals(tuple.Item6, (T6)value);
+            }
+            // Should not be needed
+            return false;
+        }
+
+        internal override bool Check(Tuple<T1, T2, T3, T4, T5, T6> tuple)
+        {
+            return _data.Contains(tuple);
+        }
+
+        internal override object GetData()
+        {
+            return _data;
+        }
+
+        internal override Fact<T1, T2, T3, T4, T5, T6> GetFact()
+        {
+            return this;
+        }
+
         internal int Hash(Tuple<T1, T2, T3, T4, T5, T6> tuple)
         {
             return _tupleComparer.GetHashCode(tuple);
@@ -1962,25 +2073,18 @@ namespace Theraot.Facts
             return result;
         }
 
-        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3, T4, T5, T6> tuple)
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5, T6>> predicate)
         {
-            switch (itemIndex)
+            Tuple<T1, T2, T3, T4, T5, T6> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
             {
-                case 1:
-                    return _comparer1.Equals(tuple.Item1, (T1)value);
-                case 2:
-                    return _comparer2.Equals(tuple.Item2, (T2)value);
-                case 3:
-                    return _comparer3.Equals(tuple.Item3, (T3)value);
-                case 4:
-                    return _comparer4.Equals(tuple.Item4, (T4)value);
-                case 5:
-                    return _comparer5.Equals(tuple.Item5, (T5)value);
-                case 6:
-                    return _comparer6.Equals(tuple.Item6, (T6)value);
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+                _index4.Remove(tuple.Item4, hash);
+                _index5.Remove(tuple.Item5, hash);
+                _index6.Remove(tuple.Item6, hash);
             }
-            // Should not be needed
-            return false;
         }
 
         private IEnumerable<int> ReadPrivate(int itemIndex, object value, out Predicate<Tuple<T1, T2, T3, T4, T5, T6>> predicate)
@@ -2034,20 +2138,6 @@ namespace Theraot.Facts
             // Empty result
             predicate = input => false;
             return new int[0];
-        }
-
-        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5, T6>> predicate)
-        {
-            Tuple<T1, T2, T3, T4, T5, T6> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-                _index4.Remove(tuple.Item4, hash);
-                _index5.Remove(tuple.Item5, hash);
-                _index6.Remove(tuple.Item6, hash);
-            }
         }
     }
 
@@ -2238,7 +2328,7 @@ namespace Theraot.Facts
         }
     }
 
-    public class Fact<T1, T2, T3, T4, T5, T6, T7>
+    public class Fact<T1, T2, T3, T4, T5, T6, T7> : FactCheckBase<T1, T2, T3, T4, T5, T6, T7>
     {
         private readonly IEqualityComparer<T1> _comparer1;
         private readonly IEqualityComparer<T2> _comparer2;
@@ -2284,19 +2374,19 @@ namespace Theraot.Facts
             Item7 = new FactData<T1, T2, T3, T4, T5, T6, T7, T7>(this, 7);
         }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T7, T1> Item1 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T7, T1> Item1 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T7, T2> Item2 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T7, T2> Item2 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T7, T3> Item3 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T7, T3> Item3 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T7, T4> Item4 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T7, T4> Item4 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T7, T5> Item5 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T7, T5> Item5 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T7, T6> Item6 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T7, T6> Item6 { get; }
 
-        public FactData<T1, T2, T3, T4, T5, T6, T7, T7> Item7 { get; private set; }
+        public FactData<T1, T2, T3, T4, T5, T6, T7, T7> Item7 { get; }
 
         public void Add(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
         {
@@ -2349,6 +2439,44 @@ namespace Theraot.Facts
             return _data;
         }
 
+        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3, T4, T5, T6, T7> tuple)
+        {
+            switch (itemIndex)
+            {
+                case 1:
+                    return _comparer1.Equals(tuple.Item1, (T1)value);
+                case 2:
+                    return _comparer2.Equals(tuple.Item2, (T2)value);
+                case 3:
+                    return _comparer3.Equals(tuple.Item3, (T3)value);
+                case 4:
+                    return _comparer4.Equals(tuple.Item4, (T4)value);
+                case 5:
+                    return _comparer5.Equals(tuple.Item5, (T5)value);
+                case 6:
+                    return _comparer6.Equals(tuple.Item6, (T6)value);
+                case 7:
+                    return _comparer7.Equals(tuple.Item7, (T7)value);
+            }
+            // Should not be needed
+            return false;
+        }
+
+        internal override bool Check(Tuple<T1, T2, T3, T4, T5, T6, T7> tuple)
+        {
+            return _data.Contains(tuple);
+        }
+
+        internal override object GetData()
+        {
+            return _data;
+        }
+
+        internal override Fact<T1, T2, T3, T4, T5, T6, T7> GetFact()
+        {
+            return this;
+        }
+
         internal int Hash(Tuple<T1, T2, T3, T4, T5, T6, T7> tuple)
         {
             return _tupleComparer.GetHashCode(tuple);
@@ -2376,27 +2504,19 @@ namespace Theraot.Facts
             return result;
         }
 
-        internal bool Check(int itemIndex, object value, Tuple<T1, T2, T3, T4, T5, T6, T7> tuple)
+        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>> predicate)
         {
-            switch (itemIndex)
+            Tuple<T1, T2, T3, T4, T5, T6, T7> tuple;
+            if (_data.Remove(hash, predicate, out tuple))
             {
-                case 1:
-                    return _comparer1.Equals(tuple.Item1, (T1)value);
-                case 2:
-                    return _comparer2.Equals(tuple.Item2, (T2)value);
-                case 3:
-                    return _comparer3.Equals(tuple.Item3, (T3)value);
-                case 4:
-                    return _comparer4.Equals(tuple.Item4, (T4)value);
-                case 5:
-                    return _comparer5.Equals(tuple.Item5, (T5)value);
-                case 6:
-                    return _comparer6.Equals(tuple.Item6, (T6)value);
-                case 7:
-                    return _comparer7.Equals(tuple.Item7, (T7)value);
+                _index1.Remove(tuple.Item1, hash);
+                _index2.Remove(tuple.Item2, hash);
+                _index3.Remove(tuple.Item3, hash);
+                _index4.Remove(tuple.Item4, hash);
+                _index5.Remove(tuple.Item5, hash);
+                _index6.Remove(tuple.Item6, hash);
+                _index7.Remove(tuple.Item7, hash);
             }
-            // Should not be needed
-            return false;
         }
 
         private IEnumerable<int> ReadPrivate(int itemIndex, object value, out Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>> predicate)
@@ -2457,21 +2577,6 @@ namespace Theraot.Facts
             // Empty result
             predicate = input => false;
             return new int[0];
-        }
-
-        internal void Remove(int hash, Predicate<Tuple<T1, T2, T3, T4, T5, T6, T7>> predicate)
-        {
-            Tuple<T1, T2, T3, T4, T5, T6, T7> tuple;
-            if (_data.Remove(hash, predicate, out tuple))
-            {
-                _index1.Remove(tuple.Item1, hash);
-                _index2.Remove(tuple.Item2, hash);
-                _index3.Remove(tuple.Item3, hash);
-                _index4.Remove(tuple.Item4, hash);
-                _index5.Remove(tuple.Item5, hash);
-                _index6.Remove(tuple.Item6, hash);
-                _index7.Remove(tuple.Item7, hash);
-            }
         }
     }
 

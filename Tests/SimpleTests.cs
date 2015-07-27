@@ -12,7 +12,7 @@ namespace Tests
         {
             var friend = new Fact<string, string>();
             friend.Add("peter", "paul");
-            foreach (var tuple in Fact.Query(friend.Item1)) // We need to fix this syntax
+            foreach (var tuple in Fact.Query(friend))
             {
                 Assert.AreEqual(tuple.Item1, "peter");
                 Assert.AreEqual(tuple.Item2, "paul");
