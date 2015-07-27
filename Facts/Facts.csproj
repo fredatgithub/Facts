@@ -15,7 +15,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -59,14 +59,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Fact1.tt</DependentUpon>
     </Compile>
-    <Content Include="IFactCheck.tt">
+    <Content Include="FactCheck.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>IFactCheck.cs</LastGenOutput>
+      <LastGenOutput>FactCheck.cs</LastGenOutput>
     </Content>
-    <Compile Include="IFactCheck.cs">
+    <Compile Include="FactCheck.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>IFactCheck.tt</DependentUpon>
+      <DependentUpon>FactCheck.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TupleEqualityComparer.cs">
