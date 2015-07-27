@@ -8,6 +8,18 @@ namespace Tests
     public class SimpleTests
     {
         [Test]
+        public void QueryAll()
+        {
+            var friend = new Fact<string, string>();
+            friend.Add("peter", "paul");
+            foreach (var tuple in Fact.Query(friend.Item1)) // We need to fix this syntax
+            {
+                Assert.AreEqual(tuple.Item1, "peter");
+                Assert.AreEqual(tuple.Item2, "paul");
+            }
+        }
+
+        [Test]
         public void QueryFact()
         {
             var friend = new Fact<string, string>();
